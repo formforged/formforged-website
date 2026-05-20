@@ -753,6 +753,19 @@
     .footer-grid { grid-template-columns: 1fr 1fr; }
     #faq { padding: 5rem 1.5rem; }
   }
+  .field-error {
+    display: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: #c44610;
+    padding: 0.3rem 1rem 0;
+    background: var(--light-gray);
+  }
+  .form-input.invalid, .form-select.invalid, .form-textarea.invalid {
+    border-bottom: 2px solid #c44610 !important;
+  }
+  .field-error.visible { display: block; }
 </style>
 </head>
 <body>
@@ -1206,85 +1219,101 @@
         </div>
       </div>
     </div>
-    <div class="quote-form">
+    <form class="quote-form" id="quoteForm" action="https://formspree.io/f/mvzyzled" method="POST" novalidate>
+      <!-- Hidden fields for Formspree routing -->
+      <input type="hidden" name="_replyto" value="info@formforged.com">
+      <input type="hidden" name="_cc" value="diogo.bicho.vicente@icloud.com">
+      <input type="hidden" name="_subject" value="New Quote Request — FormForged">
+
+      <div id="form-error-banner" style="display:none; background:#c44610; color:white; padding:0.8rem 1rem; font-family:'Space Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:2px;">
+        ⚠ Please fill in all required fields before submitting.
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">First Name *</label>
-          <input class="form-input" type="text" placeholder="John">
+          <input class="form-input" type="text" name="first_name" placeholder="John" id="field-first-name">
+          <span class="field-error" id="err-first-name">Required</span>
         </div>
         <div class="form-group">
           <label class="form-label">Last Name *</label>
-          <input class="form-input" type="text" placeholder="Smith">
+          <input class="form-input" type="text" name="last_name" placeholder="Smith" id="field-last-name">
+          <span class="field-error" id="err-last-name">Required</span>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Email *</label>
-          <input class="form-input" type="email" placeholder="john@company.com">
+          <input class="form-input" type="email" name="email" placeholder="john@company.com" id="field-email">
+          <span class="field-error" id="err-email">Valid email required</span>
         </div>
         <div class="form-group">
           <label class="form-label">Phone</label>
-          <input class="form-input" type="tel" placeholder="+44 7700 000000">
+          <input class="form-input" type="tel" name="phone" placeholder="+34 600 000 000">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Service Required *</label>
-          <select class="form-select">
+          <select class="form-select" name="service" id="field-service">
             <option value="">Select a service…</option>
-            <option>3D Printing — FDM</option>
-            <option>3D Printing — SLA Resin</option>
-            <option>3D Printing — SLS Nylon</option>
-            <option>PU Foam Moulding</option>
-            <option>3D Printing + PU Foam (combined)</option>
-            <option>Not sure — please advise</option>
+            <option value="3D Printing — FDM">3D Printing — FDM</option>
+            <option value="3D Printing — SLA Resin">3D Printing — SLA Resin</option>
+            <option value="3D Printing — SLS Nylon">3D Printing — SLS Nylon</option>
+            <option value="PU Foam Moulding">PU Foam Moulding</option>
+            <option value="3D Printing + PU Foam (combined)">3D Printing + PU Foam (combined)</option>
+            <option value="Not sure — please advise">Not sure — please advise</option>
           </select>
+          <span class="field-error" id="err-service">Please select a service</span>
         </div>
         <div class="form-group">
           <label class="form-label">Quantity *</label>
-          <select class="form-select">
-            <option>1–5 parts (Prototype)</option>
-            <option>6–50 parts (Small Batch)</option>
-            <option>51–200 parts</option>
-            <option>200+ parts</option>
+          <select class="form-select" name="quantity" id="field-quantity">
+            <option value="">Select quantity…</option>
+            <option value="1–5 parts (Prototype)">1–5 parts (Prototype)</option>
+            <option value="6–50 parts (Small Batch)">6–50 parts (Small Batch)</option>
+            <option value="51–200 parts">51–200 parts</option>
+            <option value="200+ parts">200+ parts</option>
           </select>
+          <span class="field-error" id="err-quantity">Please select a quantity</span>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Material Preference</label>
-          <select class="form-select">
-            <option value="">Not sure yet</option>
-            <option>PLA+</option>
-            <option>PETG</option>
-            <option>ABS</option>
-            <option>TPU (Flexible)</option>
-            <option>Nylon PA12 (SLS)</option>
-            <option>SLA Resin</option>
-            <option>PU Rigid Foam</option>
-            <option>PU Flexible Foam</option>
-            <option>PU Semi-rigid Foam</option>
+          <select class="form-select" name="material">
+            <option value="Not sure yet">Not sure yet</option>
+            <option value="PLA+">PLA+</option>
+            <option value="PETG">PETG</option>
+            <option value="ABS">ABS</option>
+            <option value="TPU (Flexible)">TPU (Flexible)</option>
+            <option value="Nylon PA12 (SLS)">Nylon PA12 (SLS)</option>
+            <option value="SLA Resin">SLA Resin</option>
+            <option value="PU Rigid Foam">PU Rigid Foam</option>
+            <option value="PU Flexible Foam">PU Flexible Foam</option>
+            <option value="PU Semi-rigid Foam">PU Semi-rigid Foam</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Lead Time Needed</label>
-          <select class="form-select">
-            <option>Standard (3–5 days)</option>
-            <option>Express (24–48h)</option>
-            <option>Flexible (1–2 weeks)</option>
+          <select class="form-select" name="lead_time">
+            <option value="Standard (3–5 days)">Standard (3–5 days)</option>
+            <option value="Express (24–48h)">Express (24–48h)</option>
+            <option value="Flexible (1–2 weeks)">Flexible (1–2 weeks)</option>
           </select>
         </div>
       </div>
       <div class="form-full form-group">
         <label class="form-label">Project Description *</label>
-        <textarea class="form-textarea" placeholder="Describe your part(s), application, any tolerance requirements, and whether you have design files ready…"></textarea>
+        <textarea class="form-textarea" name="description" id="field-description" placeholder="Describe your part(s), application, any tolerance requirements, and whether you have design files ready…"></textarea>
+        <span class="field-error" id="err-description">Please describe your project</span>
       </div>
       <div class="form-full form-group">
         <label class="form-label">Attach Files (STL, STEP, PDF drawings)</label>
-        <input class="form-input" type="file" multiple accept=".stl,.step,.stp,.obj,.3mf,.pdf,.dxf">
+        <input class="form-input" type="file" name="attachments" multiple accept=".stl,.step,.stp,.obj,.3mf,.pdf,.dxf">
       </div>
-      <button class="form-submit" onclick="handleSubmit(event)">Send Quote Request →</button>
-    </div>
+      <button type="submit" class="form-submit" id="form-submit-btn">Send Quote Request →</button>
+    </form>
   </div>
 </section>
 
